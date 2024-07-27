@@ -1,39 +1,48 @@
 package com.utk.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.List;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+
+import com.utk.model.User;
+import com.utk.service.InMemoryUserDetailsService;
 
 @Configuration
 public class ProjectConfig {
 
-//	@Bean
-//	UserDetailsService userDetailsService(PasswordEncoder encoder) {
-//		String password = encoder.encode("password");
-//		User user = (User) User.withUsername("utkarsh").password(password).authorities("read").build();
-//		return new InMemoryUserDetailsManager(user);
-//	}
-//
-//	@Bean
-//	PasswordEncoder passwordEncoder() {
-//		return new BCryptPasswordEncoder();
-//	}
+	@Bean
+	UserDetailsService userDetailsService(PasswordEncoder encoder) {
+		String password = encoder.encode("password");
+		UserDetails user = new User("utk1311", password, "read");
+		List<UserDetails> userDetails = List.of(user);
+		return new InMemoryUserDetailsService(userDetails);
+	}
 
-	@Autowired
-	private CustomAuthenticationProvider authenticationProvider;
+	@Bean
+	PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
+
+//	@Autowired
+//	private CustomAuthenticationProvider authenticationProvider;
 
 	@Bean
 	SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 		httpSecurity.httpBasic(Customizer.withDefaults());
-		httpSecurity.authenticationProvider(authenticationProvider);
+		// httpSecurity.authenticationProvider(authenticationProvider);
 		httpSecurity.authorizeHttpRequests(requests -> requests.anyRequest().authenticated());
 		return httpSecurity.build();
 	}
 
-	public ProjectConfig(CustomAuthenticationProvider authenticationProvider) {
-		this.authenticationProvider = authenticationProvider;
-	}
+//	public ProjectConfig(CustomAuthenticationProvider authenticationProvider) {
+//		this.authenticationProvider = authenticationProvider;
+//	}
 }
