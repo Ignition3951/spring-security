@@ -5,6 +5,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.csrf.CsrfFilter;
+
+import com.utk.filter.CsrfTokenLoggerFilter;
 
 @Configuration
 public class ProjectConfig {
@@ -24,8 +27,10 @@ public class ProjectConfig {
 		// httpSecurity.authorizeHttpRequests(requests ->
 		// requests.anyRequest().hasAuthority("write"));
 //		httpSecurity.authorizeHttpRequests(requests -> requests.anyRequest().hasRole("ADMIN"));
-		httpSecurity.authorizeHttpRequests(requests -> requests.requestMatchers("/home").hasRole("ADMIN")
-				.requestMatchers("/caio").hasRole("MANAGER").anyRequest().permitAll());
+//		httpSecurity.authorizeHttpRequests(requests -> requests.requestMatchers("/home").hasRole("ADMIN")
+//				.requestMatchers("/caio").hasRole("MANAGER").anyRequest().permitAll());
+		httpSecurity.addFilterAfter(new CsrfTokenLoggerFilter(), CsrfFilter.class)
+				.authorizeHttpRequests(request -> request.anyRequest().permitAll());
 		return httpSecurity.build();
 	}
 }
