@@ -21,7 +21,9 @@ public class ProjectConfig {
 		// httpSecurity.authenticationProvider(customAuthenticationProvider);
 		// httpSecurity.authorizeHttpRequests(requests ->
 		// requests.anyRequest().authenticated());
-		httpSecurity.authorizeHttpRequests(requests -> requests.anyRequest().hasAuthority("write"));
+		// httpSecurity.authorizeHttpRequests(requests ->
+		// requests.anyRequest().hasAuthority("write"));
+		httpSecurity.authorizeHttpRequests(requests -> requests.anyRequest().hasRole("ADMIN"));
 		return httpSecurity.build();
 	}
 }
