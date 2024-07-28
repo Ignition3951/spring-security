@@ -23,7 +23,9 @@ public class ProjectConfig {
 		// requests.anyRequest().authenticated());
 		// httpSecurity.authorizeHttpRequests(requests ->
 		// requests.anyRequest().hasAuthority("write"));
-		httpSecurity.authorizeHttpRequests(requests -> requests.anyRequest().hasRole("ADMIN"));
+//		httpSecurity.authorizeHttpRequests(requests -> requests.anyRequest().hasRole("ADMIN"));
+		httpSecurity.authorizeHttpRequests(requests -> requests.requestMatchers("/home").hasRole("ADMIN")
+				.requestMatchers("/caio").hasRole("MANAGER").anyRequest().permitAll());
 		return httpSecurity.build();
 	}
 }

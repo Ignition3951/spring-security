@@ -1,9 +1,9 @@
 package com.utk.controller;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 public class HomeController {
 
 	@GetMapping("/home")
@@ -14,5 +14,15 @@ public class HomeController {
 	@GetMapping("/error")
 	public String errorController() {
 		return "Error.html";
+	}
+
+	@GetMapping("/caio")
+	public String caioController() {
+		return "home.html";
+	}
+
+	@GetMapping("/hola")
+	public String holaController() {
+		return "home.html";
 	}
 }

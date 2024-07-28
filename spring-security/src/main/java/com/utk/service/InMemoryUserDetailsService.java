@@ -21,7 +21,10 @@ public class InMemoryUserDetailsService implements UserDetailsService {
 		UserDetails user = new User("utk1311", password, "ROLE_ADMIN");
 		UserDetails john = new User("john", password, "ROLE_ADMIN");
 		UserDetails jane = new User("jane", password, "ROLE_MANAGER");
-		List<UserDetails> users = List.of(user, john, jane);
+		UserDetails utk = org.springframework.security.core.userdetails.User.withUsername("utk131189")
+				.password(password).roles("ADMIN").build();
+
+		List<UserDetails> users = List.of(user, john, jane, utk);
 		userDetails = users;
 		this.userDetails = userDetails;
 	}
