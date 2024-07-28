@@ -12,14 +12,16 @@ public class ProjectConfig {
 	@Bean
 	SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 //		httpSecurity.formLogin(Customizer.withDefaults());
-		httpSecurity.formLogin(c -> c.defaultSuccessUrl("/home", true));
+		// httpSecurity.formLogin(c -> c.defaultSuccessUrl("/home", true));
 		// httpSecurity.addFilterBefore(new RequestValidationFilter(),
 		// BasicAuthenticationFilter.class);
 		// httpSecurity.addFilterAfter(new AuthenticationLoggingFilter(),
 		// BasicAuthenticationFilter.class);
 		httpSecurity.httpBasic(Customizer.withDefaults());
 		// httpSecurity.authenticationProvider(customAuthenticationProvider);
-		httpSecurity.authorizeHttpRequests(requests -> requests.anyRequest().authenticated());
+		// httpSecurity.authorizeHttpRequests(requests ->
+		// requests.anyRequest().authenticated());
+		httpSecurity.authorizeHttpRequests(requests -> requests.anyRequest().hasAuthority("write"));
 		return httpSecurity.build();
 	}
 }

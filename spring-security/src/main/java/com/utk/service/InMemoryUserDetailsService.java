@@ -19,7 +19,9 @@ public class InMemoryUserDetailsService implements UserDetailsService {
 		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 		String password = bCryptPasswordEncoder.encode("12345");
 		UserDetails user = new User("utk1311", password, "read");
-		List<UserDetails> users = List.of(user);
+		UserDetails john = new User("john", password, "read");
+		UserDetails jane = new User("jane", password, "write");
+		List<UserDetails> users = List.of(user, john, jane);
 		userDetails = users;
 		this.userDetails = userDetails;
 	}
