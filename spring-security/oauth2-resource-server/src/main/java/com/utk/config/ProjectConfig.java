@@ -14,12 +14,24 @@ public class ProjectConfig {
 	@Value("${keySetURI}")
 	private String keySetURI;
 
+	@Value("${introspectionUri}")
+	private String introspectionUri;
+
+	@Value("${resourceserver.clientID}")
+	private String resourceServerClientID;
+
+	@Value("${resourceserver.secret}")
+	private String resourceServerSecret;
+
 	private JwtAuthenticationConverter authenticationConverter;
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+//		httpSecurity.oauth2ResourceServer(
+//				c -> c.jwt(j -> j.jwkSetUri(keySetURI).jwtAuthenticationConverter(authenticationConverter)));
 		httpSecurity.oauth2ResourceServer(
-				c -> c.jwt(j -> j.jwkSetUri(keySetURI).jwtAuthenticationConverter(authenticationConverter)));
+				c -> c.opaqueToken(o -> o.introspectionUri(introspectionUri)
+						.introspectionClientCredentials(resourceServerClientID, resourceServerSecret)));
 		httpSecurity.authorizeHttpRequests(r -> r.anyRequest().authenticated());
 		return httpSecurity.build();
 	}

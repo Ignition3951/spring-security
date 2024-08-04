@@ -5,6 +5,7 @@ import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
+import java.time.Duration;
 import java.util.UUID;
 
 import org.springframework.context.annotation.Bean;
@@ -92,9 +93,14 @@ public class SecurityConfig {
 				.clientId("clientCred").clientSecret(passwordEncoder.encode("secret"))
 				.clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
 				.authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
-				.tokenSettings(TokenSettings.builder().accessTokenFormat(OAuth2TokenFormat.REFERENCE).build())
+				.tokenSettings(TokenSettings.builder().accessTokenFormat(OAuth2TokenFormat.REFERENCE)
+						.accessTokenTimeToLive(Duration.ofHours(12)).build())
 				.scope("CUSTOM").build();
-		return new InMemoryRegisteredClientRepository(registeredClient, registeredCredentialsClient);
+		RegisteredClient resourceServer = RegisteredClient.withId(UUID.randomUUID().toString())
+				.clientId("resource_server").clientSecret(passwordEncoder.encode("resource_server_secret"))
+				.clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
+				.authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS).build();
+		return new InMemoryRegisteredClientRepository(registeredClient, registeredCredentialsClient, resourceServer);
 	}
 
 	@Bean
