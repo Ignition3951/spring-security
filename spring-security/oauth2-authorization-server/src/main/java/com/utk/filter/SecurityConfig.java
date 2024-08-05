@@ -88,7 +88,8 @@ public class SecurityConfig {
 				.clientSecret(passwordEncoder.encode("secret"))
 				.clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
 				.authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-				.redirectUri("https://www.manning.com/authorized").scope(OidcScopes.OPENID).build();
+				.redirectUri("http://127.0.0.1:8081/login/oauth2/code/oauth2-authorization-server")
+				.scope(OidcScopes.OPENID).build();
 		RegisteredClient registeredCredentialsClient = RegisteredClient.withId(UUID.randomUUID().toString())
 				.clientId("clientCred").clientSecret(passwordEncoder.encode("secret"))
 				.clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
@@ -119,7 +120,7 @@ public class SecurityConfig {
 
 	@Bean
 	public AuthorizationServerSettings authorizationServerSettings() {
-		return AuthorizationServerSettings.builder().build();
+		return AuthorizationServerSettings.builder().issuer("http://127.0.0.1:8081").build();
 	}
 
 	@Bean
