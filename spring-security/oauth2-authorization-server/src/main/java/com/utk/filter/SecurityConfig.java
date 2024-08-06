@@ -87,8 +87,8 @@ public class SecurityConfig {
 				// .clientSettings(ClientSettings.builder().requireProofKey(false).build())
 				.clientSecret(passwordEncoder.encode("secret"))
 				.clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
-				.authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-				.redirectUri("http://127.0.0.1:8081/login/oauth2/code/oauth2-authorization-server")
+				.authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
+				// .redirectUri("http://127.0.0.1:8081/login/oauth2/code/oauth2-authorization-server")
 				.scope(OidcScopes.OPENID).build();
 		RegisteredClient registeredCredentialsClient = RegisteredClient.withId(UUID.randomUUID().toString())
 				.clientId("clientCred").clientSecret(passwordEncoder.encode("secret"))
