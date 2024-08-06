@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns="http:/ /www.w3.org/1999/xhtml"
+	xmlns:th="http:/ /www.thymeleaf.org">
+<head>
+<script>
+ const http = new XMLHttpRequest();
+ const url='http://127.0.0.1:8081/test'; 
+ http.open("POST", url);
+ http.setRequestHeader('X-CSRF-TOKEN', '6ebf8773-fe2c-43f9-bc74-378ad821bfe6');
+ http.send();
+ http.onreadystatechange = (e) => {
+ document 
+ .getElementById("output")
+ .innerHTML = http.responseText;
+ }
+ </script>
+<title>Spring Security Home</title>
+</head>
+<body>
+	<h1>Welcome!!!!!!!!!!</h1>
+	<div id="output"></div>
+</body>
+</html>
